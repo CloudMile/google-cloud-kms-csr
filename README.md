@@ -8,6 +8,8 @@ This project use SignatureAlgorithm: `x509.SHA256WithRSA`
 * https://cloud.google.com/kms/docs/algorithms
 * https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys#CryptoKeyVersionTemplate
 
+Recommend version: go 1.12+
+
 ## Usage
 
 Build binary.

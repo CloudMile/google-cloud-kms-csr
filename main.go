@@ -24,9 +24,15 @@ var (
 )
 
 func main() {
-	keyFlag := flag.String("key", "", "")
-	commonNameFlag := flag.String("common-name", "", "")
-	orgFlag := flag.String("org", "", "")
+	keyFlag := flag.String("key", "", "The KMS key resource ID")
+
+	commonNameFlag := flag.String("common-name", "common.example.com", "Require validate FQDN")
+	orgFlag := flag.String("org", "Example Organation", "")
+	orgUnitFlag := flag.String("org-unit", "Example Unit", "")
+	countryFlag := flag.String("country", "US", "")
+	provinceFlag := flag.String("province", "California", "")
+	localityFlag := flag.String("locality", "San Francisco", "")
+
 	emailFlag := flag.String("email", "", "")
 	outFlag := flag.String("out", "out.csr", "")
 	flag.Parse()
@@ -49,10 +55,10 @@ func main() {
 	subj := pkix.Name{
 		CommonName:         *commonNameFlag,
 		Organization:       []string{*orgFlag},
-		OrganizationalUnit: []string{""},
-		Country:            []string{"US"},
-		Province:           []string{"California"},
-		Locality:           []string{"San Francisco"},
+		OrganizationalUnit: []string{*orgUnitFlag},
+		Country:            []string{*countryFlag},
+		Province:           []string{*provinceFlag},
+		Locality:           []string{*localityFlag},
 	}
 
 	rawSubj := subj.ToRDNSequence()
@@ -72,11 +78,7 @@ func main() {
 	}
 
 	template.RawSubject = asn1Subj
-
-	// TODO Make this a flag or read from s.PublicKey?
-	//      https://cloud.google.com/kms/docs/algorithms
-	//      https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys#CryptoKeyVersionTemplate
-	template.SignatureAlgorithm = x509.ECDSAWithSHA256 // x509.SHA256WithRSAPSS
+	template.SignatureAlgorithm = x509.SHA256WithRSA
 
 	f, err := os.Create(*outFlag)
 	if err != nil {

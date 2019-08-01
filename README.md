@@ -3,14 +3,46 @@
 Quick utility tool that creates a CSR cert and signs it with a private key coming from Google Cloud KMS or HSM.
 The private key never leaves Google, everyone is happy. The CSR can then be used to get cert from CA.
 
-I would've done it with `openssl`, but there is no Google Cloud KMS engine available. (Sept. 2018)
+This project use SignatureAlgorithm: `x509.SHA256WithRSA`
 
+* https://cloud.google.com/kms/docs/algorithms
+* https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys#CryptoKeyVersionTemplate
 
 ## Usage
 
+Build binary.
+
 ```
 go build -o csr
-./csr -key <key-resource-id> -out my.csr --common-name MyOrg
+```
+
+Execute command to generate example csr:
+
+```
+./csr \
+  --key <key-resource-id> \
+  --out my.csr
+```
+
+Show all configuraion options:
+
+```
+./csr --help
+```
+
+
+Execute command to generate csr with full configuration:
+
+```
+./csr \
+  --key <key-resource-id> \
+  --out my.csr
+  --common-name super.example.com \
+  --org "Big Oraganization" \
+  --org-unit "Super Unit" \
+  --country TW \
+  --province Taiwan \
+  --locality Taipei
 ```
 
 Key Resource Id has the following format:
@@ -32,10 +64,7 @@ If you haven't done so already, you can set the application default credentials 
 gcloud auth application-default login
 ```
 
-
 ## Docs
 
   * https://cloud.google.com/kms/docs/how-tos
   * https://en.wikipedia.org/wiki/Certificate_signing_request
-
-

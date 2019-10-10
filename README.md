@@ -107,7 +107,7 @@ You can verify `my.csr` with:
 openssl req -text -noout -verify -in my.csr
 ```
 
-Or with this wetbsite: https://ssltools.digicert.com/checker/views/csrCheck.jsp
+Or with this website: https://ssltools.digicert.com/checker/views/csrCheck.jsp
 
 ## Troubleshooting
 

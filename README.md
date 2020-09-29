@@ -19,8 +19,8 @@ Create a HSM key on Cloud KMS: https://cloud.google.com/kms/docs/hsm
 Set the variables
 
 ```
-export KMS_LOCATION="asia-southeast1"
-export KMS_KEY_RING="test-hsm-ring"
+export KMS_LOCATION="asia-east1"
+export KMS_KEY_RING="test-hsm-ring-${KMS_LOCATION}"
 export KMS_KEY="test-hsm-key"
 ```
 
@@ -92,7 +92,7 @@ Execute command to generate csr with full configuration(Example):
 ```
 ./csr \
   --key $KMS_KEY_RESOURCE_ID \
-  --out my.csr
+  --out my.csr \
   --common-name super.example.com \
   --org "Big Oraganization" \
   --org-unit "Super Unit" \
@@ -117,6 +117,10 @@ If you haven't done so already, you can set the application default credentials 
 ```
 gcloud auth application-default login
 ```
+
+## Destroy Key
+
+[Destroying and restoring key versions](https://cloud.google.com/kms/docs/destroy-restore)
 
 ## Document
 
